@@ -2,10 +2,16 @@
 
 require('../vendor/autoload.php');
 
+use Silex\Application;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+
 $app = new Silex\Application();
 $app['debug'] = true;
 
 // Register the monolog logging service
+/*
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
   'monolog.logfile' => 'php://stderr',
 ));
@@ -14,12 +20,20 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => __DIR__.'/views',
 ));
+*/
 
 // Our web handlers
 
+/*
 $app->get('/', function() use($app) {
   $app['monolog']->addDebug('logging output.');
   return $app['twig']->render('index.twig');
+});
+*/
+
+$app->get('/list', function() use($app) {
+    $tweets = array( array('title' => 'hello world', 'body' => 'This is #helloworld!') );
+    return new JsonResponse($tweets);
 });
 
 $app->run();
