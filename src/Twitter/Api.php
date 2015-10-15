@@ -10,7 +10,8 @@ class Api
 
     public function __construct(){
 
-        $this->oAuthTokenUrl = 'https://api.twitter.com/oauth2/token';
+        $this->oAuthTokenUrlBase = 'https://api.twitter.com';
+        $this->oAuthTokenUrlPath = '/oauth2/token';
 
     }
 
@@ -28,18 +29,17 @@ class Api
 
         $client = new Client([
     	// Base URI is used with relative requests
-    	'base_uri' => 'https://api.twitter.com',
+    	'base_uri' => $this->oAuthTokenUrlBase,
    
 		]);
 
         $requestParams = [ 'auth' => [ $consumerKey , $consumerSecret ],
                            'form_params' => [ 'grant_type' => 'client_credentials' ] ];
 
-        $response = $client->request('POST', '/oauth2/token', $requestParams);
+        $response = $client->request('POST', $this->oAuthTokenUrlPath, $requestParams);
         $responseBodyJson = $response->getBody();
         $responseBody = json_decode($responseBodyJson, true);
-
-
+        
         return $responseBody['access_token'];
     }
 
