@@ -5,6 +5,10 @@ The web application connects to the REST API, and allows you to view a list of t
 
 ## Quickstart
 
+## Requirements 
+
+PHP 5.5 or higher
+
 ## Clone files
 
     mkdir ~/Sites
