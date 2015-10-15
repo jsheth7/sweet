@@ -6,6 +6,8 @@ use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Twitter\Api;
+
 
 $app = new Silex\Application();
 $app['debug'] = true;
@@ -31,8 +33,16 @@ $app->get('/', function() use($app) {
 });
 */
 
+$app->get('/', function() use($app) {
+  //$app['monolog']->addDebug('logging output.');
+  return str_repeat('Hello', getenv('TIMES'));
+});
+
 $app->get('/list', function() use($app) {
-    $tweets = array( array('title' => 'hello world', 'body' => 'This is #helloworld!') );
+    //$tweets = array( array('title' => 'hello world', 'body' => 'This is #helloworld!') );
+
+    $api = new Api();
+    $tweets = $api->search();
     return new JsonResponse($tweets);
 });
 
