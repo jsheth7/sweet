@@ -7,9 +7,13 @@ Demo site: https://sweet-tweets.herokuapp.com/
 
 ## Design Overview
 
+### Framework
+
 This project uses the Silex micro-framework, which is built on Symfony2 components. Silex uses a quasi-MVC design, which helps to build maintainable software.
 
 It uses composer to load in Silex components, as well as the guzzle PHP library (to make HTTP requests).
+
+### Controller
 
 The front controller is located at web/index.php. This script bootstraps Silex and provides two entry points:
 
@@ -18,7 +22,11 @@ The front controller is located at web/index.php. This script bootstraps Silex a
 
 Each controller action is defined within web/index.php.
 
+### Views
+
 Templates (Views) are defined within web/views. Templates use the twig templating library, which is also used in Symfony 2.
+
+### Model 
 
 It uses PSR-0 autoloading built into composer to load the Twitter API class (src/Twitter/Api.php).
 
@@ -27,14 +35,22 @@ The Api.php class implements retrieving an oauth 2 bearer token from Twitter usi
 The methods in Api.php are short, and documented using phpdoc syntax.
 Note the use of public and protected methods.
 
+### 12-factor
+
 It is designed to be a 12-factor app (see: http://12factor.net/).
 Configuration values are set via environment variables, and this application can easily be deployed to Heroku, or another similar platform-as-a-service.
+
+### Caveats
 
 I only spent 5 hours on this project, so some things remain to be done. Please see the "TODO" section below.
 
 The project currently provides useful functionality, and hopefully allows me to share my thoughts on the design and vision I have for it.
 
+### Thought process
+
 To see how the project evolved, please look through the commits. This will give you insight into how I thought through the problem, and adapted the code as I encountered new insights.
+
+### Demo
 
 Please visit the demo site: https://sweet-tweets.herokuapp.com/
 
