@@ -7,7 +7,7 @@ Demo site: https://sweet-tweets.herokuapp.com/
 
 ## Design Overview
 
-This project uses the Silex micro-framework, which is built on Symfony2 components.
+This project uses the Silex micro-framework, which is built on Symfony2 components. Silex uses a quasi-MVC design, which helps to build maintainable software.
 
 It uses composer to load in Silex components, as well as the guzzle PHP library (to make HTTP requests).
 
@@ -15,6 +15,10 @@ The front controller is located at web/index.php. This script bootstraps Silex a
 
 * / - The main page showing a formatted list of tweets (HTML / CSS)
 * /list - A REST API endpoint showing the same list of tweets in JSON format.
+
+Each controller action is defined within web/index.php.
+
+Templates (Views) are defined within web/views. Templates use the twig templating library, which is also used in Symfony 2.
 
 It uses PSR-0 autoloading built into composer to load the Twitter API class (src/Twitter/Api.php).
 
