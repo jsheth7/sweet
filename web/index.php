@@ -41,9 +41,15 @@ $app->get('/', function() use($app) {
 $app->get('/list', function() use($app) {
     //$tweets = array( array('title' => 'hello world', 'body' => 'This is #helloworld!') );
 
-    $api = new Api();
-    $tweets = $api->search();
+    try {
+        $api = new Api();
+        $tweets = $api->getLatestTweets('salesforce', 10);
+    } catch (\Exception $e) {
+        $tweets = array( 'error' => $e->getMessage(), 'debug' => $api->debug() );
+    }
+
     return new JsonResponse($tweets);
+
 });
 
 $app->run();

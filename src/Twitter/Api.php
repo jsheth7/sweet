@@ -6,7 +6,9 @@ use GuzzleHttp\Client;
 class Api
 {
 
-    protected $oAuthTokenUrl;
+    protected $apiUrlBase;
+    protected $oAuthTokenPath;
+    protected $timelinePath;
 
     protected $token;
     protected $httpClient;
@@ -18,13 +20,29 @@ class Api
     protected function init(){
         $this->apiUrlBase = 'https://api.twitter.com';
         $this->oAuthTokenPath = '/oauth2/token';
+
         $this->timelinePath = '/1.1/statuses/user_timeline.json';
 
+        $this->initHttpClient();
+    }
+
+    public function debug(){
+        return array('token' => $this->token);
+    }
+
+    /**
+     * Initialize the http client (guzzle) object,
+     * and retrieve an oauth bearer token
+     * @see https://dev.twitter.com/oauth/application-only
+     */
+    protected function initHttpClient(){
+        //First get the token, given the access key pair:
         $this->httpClient = new Client([
             // Base URI is used with relative requests
             'base_uri' => $this->apiUrlBase,
 
         ]);
+
         $this->token = $this->getToken();
     }
 
@@ -36,6 +54,14 @@ class Api
      * @return string
      */
     protected function makeHttpRequest($httpMethod, $path, $requestParams ){
+
+        //If the token is set, make sure to send the token with every request
+        if( isset($this->token) && !empty($this->token) ){
+            $requestParams['headers'] = array(
+                'Authorization' => "Bearer {$this->token}",
+            );
+        }
+
         $response = $this->httpClient->request($httpMethod, $path, $requestParams);
         $responseBodyJson = $response->getBody();
         $responseBody = json_decode($responseBodyJson, true);
@@ -43,7 +69,9 @@ class Api
     }
 
     /**
-     * Retrieve an OAuth 2 Bearer Token using consumer & secret keys. The token can then be used to make API requests.
+     * Retrieve an OAuth 2 Bearer Token using consumer & secret keys.
+     * The token can then be used to make API requests.
+     * @see https://dev.twitter.com/oauth/application-only
      * @return mixed
      */
     protected function getToken(){
@@ -57,23 +85,31 @@ class Api
         $requestParams = [ 'auth' => [ $consumerKey , $consumerSecret ],
                            'form_params' => [ 'grant_type' => 'client_credentials' ] ];
 
-        $responseBody = $this->makeHttpRequest('POST', $this->oAuthTokenPath, $requestParams);
-        return $responseBody['access_token'];
+        $response = $this->makeHttpRequest('POST', $this->oAuthTokenPath, $requestParams);
+        return $response['access_token'];
     }
 
     /**
      * Get the latest x tweets for a user
      * @see https://dev.twitter.com/rest/public/timelines
      * @see https://dev.twitter.com/rest/reference/get/statuses/user_timeline
-     * @param $username
+     * @param $screenname Twitter screen name
+     * @param $numTweets Number of tweets to return
      */
-    public function getLatestTweets($username, $numTweets){
+    public function getLatestTweets($screenname, $numTweets){
         //$apiUrl = $this->apiUrlBase . $this->timelinePath;
+
+        $requestParams = [
+            'query' => ['screen_name' => $screenname, 'count' => $numTweets]
+        ];
+
+        $response = $this->makeHttpRequest('GET', $this->timelinePath, $requestParams);
+        return $response;
 
     }
 
     public function search(){
-        return array( array('token' => $this->token, 'title' => 'hello world 2', 'body' => 'This is #helloworld 2!') );
+        return array( array('title' => 'hello world 2', 'body' => 'This is #helloworld 2!') );
     }
 
 }
