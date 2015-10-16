@@ -33,17 +33,19 @@ $app->get('/', function() use($app) {
 });
 */
 
+/*
 $app->get('/', function() use($app) {
   //$app['monolog']->addDebug('logging output.');
   return str_repeat('Hello', getenv('TIMES'));
 });
+*/
 
 $app->get('/list', function() use($app) {
     //$tweets = array( array('title' => 'hello world', 'body' => 'This is #helloworld!') );
 
     try {
         $api = new Api();
-        $tweets = $api->getLatestTweets('salesforce', 10);
+        $tweets = $api->getLatestTweets( getenv('TWITTER_SCREENNAME'), 10);
     } catch (\Exception $e) {
         $tweets = array( 'error' => $e->getMessage(), 'debug' => $api->debug() );
     }

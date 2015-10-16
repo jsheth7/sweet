@@ -25,10 +25,13 @@ This will install the needed components and the Silex micro-framework.
 ### Set configuration values
 
   You will need an oauth consumer key and secret.
+  Also, choose a twitter screenname whose tweets will be shown.
+
   You can get these by going to https://apps.twitter.com/ and creating an application.
 
     export OAUTH_CONSUMER_KEY=abcd
     export OAUTH_CONSUMER_SECRET=dfgh
+    export TWITTER_SCREENNAME=salesforce
 
 ### Run local web server
 
@@ -55,6 +58,7 @@ Set the oauth key and secret (see "Set configuration values" section above).
 
     heroku config:set OAUTH_CONSUMER_KEY=abcd
     heroku config:set OAUTH_CONSUMER_SECRET=dfgh
+    heroku config:set TWITTER_SCREENNAME=salesforce
 
 
 

@@ -17,6 +17,9 @@ class Api
         $this->init();
     }
 
+    /**
+     * Initialize vairables and HTTP client
+     */
     protected function init(){
         $this->apiUrlBase = 'https://api.twitter.com';
         $this->oAuthTokenPath = '/oauth2/token';
@@ -24,10 +27,6 @@ class Api
         $this->timelinePath = '/1.1/statuses/user_timeline.json';
 
         $this->initHttpClient();
-    }
-
-    public function debug(){
-        return array('token' => $this->token);
     }
 
     /**
@@ -62,6 +61,7 @@ class Api
             );
         }
 
+        //TODO - handle the token expiring / being invalid
         $response = $this->httpClient->request($httpMethod, $path, $requestParams);
         $responseBodyJson = $response->getBody();
         $responseBody = json_decode($responseBodyJson, true);
@@ -110,6 +110,14 @@ class Api
 
     public function search(){
         return array( array('title' => 'hello world 2', 'body' => 'This is #helloworld 2!') );
+    }
+
+    /**
+     * For my own debugging purposes. Use with care - may contain sensitive info.
+     * @return array
+     */
+    public function debug(){
+        return array('token' => $this->token);
     }
 
 }
