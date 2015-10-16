@@ -30,7 +30,7 @@ I only spent 5 hours on this project, so some things remain to be done. Please s
 
 The project currently provides useful functionality, and hopefully allows me to share my thoughts on the design and vision I have for it.
 
-To see how the project evolved, please look through the commits - it will give you insight into how I thought through the problem, and adapted the code as I encountered new insights.
+To see how the project evolved, please look through the commits. This will give you insight into how I thought through the problem, and adapted the code as I encountered new insights.
 
 Please visit the demo site: https://sweet-tweets.herokuapp.com/
 
@@ -98,6 +98,11 @@ Set the oauth key and secret (see "Set configuration values" section above).
     heroku config:set OAUTH_CONSUMER_KEY=abcd
     heroku config:set OAUTH_CONSUMER_SECRET=dfgh
     heroku config:set TWITTER_SCREENNAME=salesforce
+
+### Deploy to heroku
+
+    git push origin heroku
+
 
 
 
